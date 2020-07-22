@@ -1,0 +1,16 @@
+---
+to: packages/app/src/hooks/useDelete<%= h.capitalize(resource) %>.ts
+---
+
+import * as firebase from "firebase/app";
+import useErrorProvider from "./useErrorProvider";
+
+export default function useDelete<%= h.capitalize(resource) %>() {
+  const { reportError } = useErrorProvider();
+  const db = firebase.firestore();
+  return (<%= h.changeCase.camel(resource) %>Id) =>
+    db
+      .doc(`<%= h.changeCase.camel(resource) %>/${<%= h.changeCase.camel(resource) %>Id}`)
+      .delete()
+      .catch((e) => reportError(e, "useDelete<%= h.capitalize(resource) %>"));
+}
